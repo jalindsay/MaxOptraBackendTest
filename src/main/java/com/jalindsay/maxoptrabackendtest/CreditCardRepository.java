@@ -5,8 +5,10 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-// If this repo connected to a database it would extend JpaRepository<CreditCard, Long>
-// Instead we are using a List to store the CreditCard objects
+/**
+ * If this repo connected to a database it would extend JpaRepository<CreditCard, Long>
+ * Instead we are using a List to store the CreditCard objects
+ */
 @Repository
 public class CreditCardRepository {
 

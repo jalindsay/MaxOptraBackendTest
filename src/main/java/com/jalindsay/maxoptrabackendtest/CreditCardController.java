@@ -12,6 +12,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The CreditCardController class is responsible for handling the HTTP requests
+ * and responses
+ */
 @RestController
 public class CreditCardController {
 
@@ -23,6 +27,10 @@ public class CreditCardController {
         return "GET REQUEST DEFAULT PLACEHOLDER";
     }
 
+    /**
+     * Hitting this endpoint will populate the list of credit cards
+     * with some dummy data
+     */
     @GetMapping("/populateCards")
     public void populateCards() {
 
@@ -30,19 +38,19 @@ public class CreditCardController {
 
         CreditCard creditCard1 = new CreditCard();
         creditCard1.setBankName("Natwest");
-        creditCard1.setCardNumber("1234567891011121");
+        creditCard1.setCardNumber("5555555555554444");
         creditCard1.setExpiryDate(LocalDate.of(2025, 12, 31));
         creditCards.add(creditCard1);
 
         CreditCard creditCard2 = new CreditCard();
         creditCard2.setBankName("Nationwide");
-        creditCard2.setCardNumber("9864765438248787");
+        creditCard2.setCardNumber("4111111111111111");
         creditCard2.setExpiryDate(LocalDate.of(2028, 12, 31));
         creditCards.add(creditCard2);
 
         CreditCard creditCard3 = new CreditCard();
         creditCard3.setBankName("Lloyds");
-        creditCard3.setCardNumber("1111222233334444");
+        creditCard3.setCardNumber("4111111111111111");
         creditCard3.setExpiryDate(LocalDate.of(2026, 12, 31));
         creditCards.add(creditCard3);
 
@@ -61,8 +69,8 @@ public class CreditCardController {
         try {
             return new ResponseEntity<>(creditCardService.saveCreditCard(creditCard), HttpStatus.OK);
         } catch (Exception e) {
-            System.err.print("exception: " + e.getMessage());
-            return new ResponseEntity<>("invalid card number", HttpStatus.INTERNAL_SERVER_ERROR);
+            System.err.println("exception: " + e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
