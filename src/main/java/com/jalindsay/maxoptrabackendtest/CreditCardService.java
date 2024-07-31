@@ -18,6 +18,9 @@ public class CreditCardService {
     public List<CreditCard> listAllCreditCards() {
         List<CreditCard> creditCards = creditCardRepository.listAllCreditCards();
 
+        // Sort Credit Cards by Expiry Date in descending order
+        creditCards.sort((c1, c2) -> c2.getExpiryDate().compareTo(c1.getExpiryDate()));
+
         // Obfuscate each credit card number
         for (CreditCard creditCard : creditCards) {
             obfuscateCreditCard(creditCard);
