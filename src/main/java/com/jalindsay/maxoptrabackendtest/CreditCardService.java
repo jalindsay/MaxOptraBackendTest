@@ -18,7 +18,14 @@ public class CreditCardService {
 
     public CreditCard saveCreditCard(CreditCard creditCard) {
 
-        String cardNumber = creditCard.getCardNumber();
+        String cardNumber = creditCard.getCardNumber().replace("-", "");
+        // Set card number without hyphens back to the CreditCard object
+        creditCard.setCardNumber(cardNumber);
+
+        if (containsNonNumeric(cardNumber)) {
+            throw new IllegalArgumentException("Card number must only contain digits");
+        }
+
         if (cardNumber.length() < 15 || cardNumber.length() > 16) {
             throw new IllegalArgumentException("Card number must be 15 or 16 digits long");
         }
@@ -30,8 +37,17 @@ public class CreditCardService {
         return creditCardRepository.saveCreditCard(creditCard);
     }
 
+    public boolean containsNonNumeric(String str) {
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean LuhnCheck(String cardNumber) {
-        // Luhn Algorithm
+        // Luhn Algorithm check
         // https://en.wikipedia.org/wiki/Luhn_algorithm
         int n = cardNumber.length();
         int total = 0;
