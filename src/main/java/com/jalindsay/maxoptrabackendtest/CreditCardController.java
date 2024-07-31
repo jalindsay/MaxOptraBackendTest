@@ -61,7 +61,8 @@ public class CreditCardController {
         try {
             return new ResponseEntity<>(creditCardService.saveCreditCard(creditCard), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Invalid Number", HttpStatus.INTERNAL_SERVER_ERROR);
+            System.err.print("exception: " + e.getMessage());
+            return new ResponseEntity<>("invalid card number", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

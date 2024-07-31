@@ -22,8 +22,10 @@
     <div>
         <label for="expiryDate">Expiry Date:</label>
         <input type="text" id="expiryDate" name="expiryDate" required>
+        <label id="expiryDateError" style="color: red;"></label>
     </div>
     <button type="submit">Submit</button>
+    <label id="genericErrorLabel" style="color: red;"></label>
 </form>
 <br>
 <h1>Credit Card data</h1>
@@ -54,9 +56,12 @@
             body: JSON.stringify({ cardNumber: cardNumber, bankName: bankName, expiryDate: expiryDate })
         })
             .then(response => {
+                // Clear all existing error messages
+                cardNumberError.textContent = '';
+                expiryDateError.textContent = '';
+                genericErrorLabel.textContent = '';
                 if (!response.ok) {
                     return response.text().then(text => { throw new Error(text) });
-
                 }
                 return response.json();
             })
@@ -67,7 +72,13 @@
             })
             .catch((error) => {
                 console.error('Error:', error);
-                cardNumberError.textContent = error.message;
+                if (error.message.includes('number')) {
+                    cardNumberError.textContent = error.message;
+                } else if (error.message.includes('timestamp')) {
+                    expiryDateError.textContent = 'Invalid date format';
+                } else {
+                    genericErrorLabel.textContent = 'Generic error occurred';
+                }
             });
     });
 

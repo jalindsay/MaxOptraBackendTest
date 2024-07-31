@@ -19,7 +19,15 @@ public class CreditCardService {
             throw new IllegalArgumentException("Card number must be 15 or 16 digits long");
         }
 
+        // TODO: Do luhn check here
+        // TODO: Create custom exception for invalid card number
+
         return creditCardRepository.saveCreditCard(creditCard);
+    }
+
+    public void LuhnCheck(String cardNumber) {
+        // Luhn Algorithm
+        // https://en.wikipedia.org/wiki/Luhn_algorithm
     }
 
     public List<CreditCard> listAllCreditCards() {
