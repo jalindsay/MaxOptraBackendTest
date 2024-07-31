@@ -12,6 +12,16 @@ public class CreditCard {
 
     private LocalDate expiryDate;
 
+    public CreditCard(){
+    }
+
+    public CreditCard(CreditCard creditCard) {
+        this.id = creditCard.getId();
+        this.bankName = creditCard.getBankName();
+        this.cardNumber = creditCard.getCardNumber();
+        this.expiryDate = creditCard.getExpiryDate();
+    }
+
     // Getters and Setters
     public String getBankName() {
         return bankName;

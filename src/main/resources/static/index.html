@@ -10,12 +10,19 @@
 <body>
 <h1>Submit Credit Card Info</h1>
 <form id="creditCardForm">
-    <label for="bankName">Bank Name:</label>
-    <input type="text" id="bankName" name="bankName" required>
-    <label for="cardNumber">Card Number:</label>
-    <input type="text" id="cardNumber" name="cardNumber" required>
-    <label for="expiryDate">Expiry Date:</label>
-    <input type="text" id="expiryDate" name="expiryDate" required>
+    <div>
+        <label for="bankName">Bank Name:</label>
+        <input type="text" id="bankName" name="bankName" required>
+    </div>
+    <div>
+        <label for="cardNumber">Card Number:</label>
+        <input type="text" id="cardNumber" name="cardNumber" required>
+        <label id="cardNumberError" style="color: red;"></label>
+    </div>
+    <div>
+        <label for="expiryDate">Expiry Date:</label>
+        <input type="text" id="expiryDate" name="expiryDate" required>
+    </div>
     <button type="submit">Submit</button>
 </form>
 <br>
@@ -46,13 +53,21 @@
             },
             body: JSON.stringify({ cardNumber: cardNumber, bankName: bankName, expiryDate: expiryDate })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text) });
+
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Success:', data);
+                cardNumberError.textContent = '';
                 fetchCreditCards();
             })
             .catch((error) => {
                 console.error('Error:', error);
+                cardNumberError.textContent = error.message;
             });
     });
 
