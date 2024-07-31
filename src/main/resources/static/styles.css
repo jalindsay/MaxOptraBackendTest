@@ -1,0 +1,10 @@
+/* src/main/resources/static/styles.css */
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+    padding: 5px
+}

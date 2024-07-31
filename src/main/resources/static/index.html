@@ -5,30 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Form</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <h1>Submit Credit Card Info</h1>
 <form id="creditCardForm">
-    <label for="bank">Bank Name:</label>
-    <input type="text" id="bank" name="bank" required>
+    <label for="bankName">Bank Name:</label>
+    <input type="text" id="bankName" name="bankName" required>
     <label for="cardNumber">Card Number:</label>
     <input type="text" id="cardNumber" name="cardNumber" required>
-    <label for="expiry">Expiry Date:</label>
-    <input type="text" id="expiry" name="expiry" required>
+    <label for="expiryDate">Expiry Date:</label>
+    <input type="text" id="expiryDate" name="expiryDate" required>
     <button type="submit">Submit</button>
 </form>
-
+<br>
+<h1>Credit Card data</h1>
+<table id="creditCardTable">
+    <thead>
+        <tr>
+            <th>Bank Name</th>
+            <th>Card Number</th>
+            <th>Expiry Date</th>
+        </tr>
+    </thead>
+    <tbody>
+    <!-- Rows will be populated by JavaScript -->
+    </tbody>
+</table>
 <script>
     document.getElementById('creditCardForm').addEventListener('submit', function(event) {
         event.preventDefault();
         const cardNumber = document.getElementById('cardNumber').value;
+        const bankName = document.getElementById('bankName').value;
+        const expiryDate = document.getElementById('expiryDate').value;
 
-        fetch('/submitCard', {
+        fetch('/submitCreditCard', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ cardNumber: cardNumber })
+            body: JSON.stringify({ cardNumber: cardNumber, bankName: bankName, expiryDate: expiryDate })
         })
             .then(response => response.json())
             .then(data => {
@@ -38,6 +54,28 @@
                 console.error('Error:', error);
             });
     });
+
+    function fetchCreditCards() {
+        fetch('/getCreditCards')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('creditCardTable').getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = '';
+                console.log(data)
+                data?.forEach(card => {
+                    const row = tableBody.insertRow();
+                    row.insertCell(0).innerText = card.bankName;
+                    row.insertCell(1).innerText = card.cardNumber;
+                    row.insertCell(2).innerText = card.expiryDate;
+                });
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Fetch existing credit cards on page load
+    window.onload = fetchCreditCards;
 </script>
 </body>
 </html>
