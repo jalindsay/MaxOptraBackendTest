@@ -6,15 +6,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class MainController {
+public class CreditCardController {
 
     @Autowired
-    private CreditCardRepository creditCardRepository;
+    private CreditCardService creditCardService;
 
     @GetMapping("/")
     public String home() {
@@ -25,7 +23,7 @@ public class MainController {
     public List<CreditCard> getCreditCard() {
 
         // List<CreditCard> creditCards = new ArrayList<>();
-        List<CreditCard> creditCards = creditCardRepository.listAllCreditCards();
+        List<CreditCard> creditCards = creditCardService.listAllCreditCards();
 
 //        CreditCard creditCard = new CreditCard();
 //        creditCard.setBankName("Natwest");
@@ -40,7 +38,7 @@ public class MainController {
     @PostMapping("/submitCreditCard")
     public CreditCard submitCreditCard(@RequestBody CreditCard creditCard) {
 
-        CreditCard savedCreditCard = creditCardRepository.saveCreditCard(creditCard);
+        CreditCard savedCreditCard = creditCardService.saveCreditCard(creditCard);
 
         return savedCreditCard;
     }

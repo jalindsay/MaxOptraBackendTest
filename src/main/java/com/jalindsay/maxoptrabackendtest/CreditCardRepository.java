@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public class CreditCardRepository {
 
-    private List<CreditCard> creditCards = new ArrayList<CreditCard>();
+    private final List<CreditCard> creditCards = new ArrayList<>();
 
     public List<CreditCard> listAllCreditCards() {
         return creditCards;
